@@ -1,0 +1,52 @@
+{
+
+    "card1":
+    {
+        "uid" : "CITI_A1",
+
+        "select_retailers" : 
+            {
+                "lifestyle" : "10% off on orders above Rs.5000",
+                "nike" : "2X points on all orders",
+                "adidas" : "5% cashback on orders above Rs.2500"
+            },
+
+        "categories": 
+            {
+                "clothing" : "2% off on orders above Rs.5000",
+                "electronics" : "10% off on orders above Rs.10000"
+            },
+
+        "other":
+            {
+                "joining bonus": "Rs.5000 worth Puma coupouns"
+            }      
+    },
+
+
+
+    "card2":
+    {
+        "uid" : "HDFC_A1",
+
+        "select_retailers" : 
+            {
+                "puma" : "15% off on orders above Rs.5000",
+                "apple" : "5X points on all orders",
+                "nivea" : "15% cashback on orders above Rs.2500"
+            },
+        "categories": 
+            {
+                "gaming" : "20% off on orders above Rs.5000",
+                "entertainment" : "30% off on orders above Rs.10000"
+            },
+        "other":
+            {
+                "joining bonus": "Rs.3000 worth Lifestyle coupouns"
+            }      
+    }
+
+
+
+
+}
