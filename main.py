@@ -1,3 +1,5 @@
+import helper
+
 class Cards():
     def __init__(self, uid, card_name, name_on_card, bank_name, network, type, number, expiry, cvv, NFC, select_retailers,categories,other):
         #card details
@@ -17,13 +19,52 @@ class Cards():
         self.categories : dict = categories
         self.other : dict = other
     
-    def select_retailers_rewards(self, brand_or_category : dict):
-        for retailers in self.select_retailers:
-            if brand_or_category == retailers:
-                return self.select_retailers[retailers]
+    def select_retailers_rewards(self, brand_or_category : str) -> str : 
+        for retailer in self.select_retailers:
+            if brand_or_category == retailer:
+                return self.select_retailers[retailer]
         return False
+    
+    def categories_rewards(self, brand_or_category : str) -> str : 
+        for category in self.categories:
+            if brand_or_category == category:
+                return self.categories[category]
+        return False
+    
+    def other_rewards(self, brand_or_category : str) -> str : 
+        for other in self.other:
+            if brand_or_category == other:
+                return self.other[other]   
+        return False
+    
+    def best_reward(self, brand_or_category : str) -> str :
+        pass #need regex function to compare values
 
 
+list_of_cards = []
+def construct_cards() -> None:
 
+    for card in helper.json_to_nested_dict("cards.json"):
+        helper_list = helper.card_class_constructor(card)
+        list_of_cards.append(Cards(
+            uid=helper_list[0],
+            card_name=card,
+            name_on_card=helper_list[1],
+            bank_name=helper_list[2],
+            network=helper_list[3],
+            type=helper_list[4],
+            number=helper_list[5],
+            expiry=helper_list[6],
+            cvv=helper_list[7],
+            NFC=helper_list[8],
+            select_retailers=helper_list[9],
+            categories=helper_list[10],
+            other=helper_list[11]
+            ))
+
+
+construct_cards()
+print(list_of_cards[0].card_name)
+print(list_of_cards[1].other_rewards("joining bonus"))
 
         

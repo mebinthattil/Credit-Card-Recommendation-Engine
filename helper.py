@@ -27,24 +27,51 @@ def card_class_constructor(uid : int) -> list[str, str, str, str, str, str, int,
     for card in all_cards:
         if all_cards[card]["uid"] == uid:
             break
-    else:
-        print("Card with specified uid not found")
     list_with_constructor_values += list(all_cards[card].values()) 
 
     #to add card rewards
     all_rewards = json_to_nested_dict("rewards.json")
     for card in all_rewards:
         if all_rewards[card]["uid"] == uid:
-            break    
-    else:
-        print("No rewards found for card with specified uid")
+            break
     all_rewards[card].pop("uid")
     for type_of_reward in all_rewards[card]:
         list_with_constructor_values.append(all_rewards[card][type_of_reward])
     
     return list_with_constructor_values
 
-print(card_class_constructor("CITI_A1"))
+def reward_type(reward_statement : str) -> str:
+    if "off" in reward_statement.lower():
+        return "percent off"
+    
+    elif "points" in reward_statement.lower():
+        return "points"
+
+    elif "cashback" in reward_statement.lower():
+        return "cashback"
+
+    elif "coupouns" in reward_statement.lower():
+        return "coupons"
+
+    else:
+        return False
+    
+def regex_extract_reward_value(reward_statement : str, reward_type : str) -> int:
+    pass
+
+
+def reward_value(reward_statement : str) -> int:
+    '''
+    different types:
+    <value> <% or Rs.> *off* [on condition] --> percent off
+    <value> X *points* [on condition] --> points
+    <value> % *cashback* [on condition] --> cashback
+    <value> worth *coupouns* [on condition] --> coupons
+
+    problem 1: regex identification
+    '''
+    #pass regex pertaining to reward_type
+    pass
 
 
 
