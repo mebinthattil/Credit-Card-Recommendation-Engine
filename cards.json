@@ -1,0 +1,26 @@
+{
+    "card1":
+    {
+        "uid": "CITI_A1",        
+        "name_on_card": "John Doe",
+        "bank_name": "Citi",
+        "network": "Visa",
+        "type": "Credit",
+        "number": 4111111111111111,
+        "expiry": "12/2025",
+        "cvv": 123,
+        "NFC": true
+    },
+    "card2":
+    {
+        "uid": "HDFC_A1",
+        "name_on_card": "Joe Mama",
+        "bank_name": "HDFC",
+        "network": "Mastercard",
+        "type": "Credit",
+        "number": 5555555555554444,
+        "expiry": "12/2025",
+        "cvv": 123,
+        "NFC": false
+    }
+}
