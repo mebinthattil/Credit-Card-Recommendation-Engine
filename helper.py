@@ -1,5 +1,4 @@
 def json_to_nested_dict(json_file: str) -> dict:
-
     #reading from json
     import json
     with open(json_file) as f:
@@ -40,6 +39,21 @@ def card_class_constructor(uid : int) -> list[str, str, str, str, str, str, int,
     
     return list_with_constructor_values
 
+def PPR_calculator_with_stmt(reward_statement:str) -> int: 
+    import re
+
+    pattern = r"(\d+)\s*points\s*(for\s*every|per)\s*Rs\.*\s*(\d+)"
+
+    # Search for a match
+    match = re.search(pattern, reward_statement)
+    if match:
+        points = int(match.group(1))  # Extracts the points value
+        amount = int(match.group(3))  # Extracts the Rs amount
+        return (points/amount)
+    else:
+        return 0
+
+    
 def reward_type(reward_statement : str) -> str:
     if "off" in reward_statement.lower():
         return "percent off"
@@ -91,12 +105,38 @@ def regex_extract_reward_value_PERCENT_OFF(reward_statement : str, purchase_amou
         print("percent_off regex failed")
         return 0
     
-def regex_extract_reward_value(reward_statement : str, purchase_amount : int) -> int:
+def regex_extract_reward_value_POINTS(reward_statement : str, purchase_amount : int, points_stmt : str) -> int:
+    #example function call: regex_extract_reward_value_POINTS("5 X points on purchases above Rs. 2000",6000, "100 points for every Rs.1000 spent")
+    import re
+    pattern = r"(\d+)\s*(X)?\s*points\s*(on\s.*Rs\.\s*(\d+))?"
+
+    match = re.search(pattern, reward_statement)
+    if match:
+        value : int = int(match.group(1))  # Extracts the numeric value
+        multiplier : bool = True if match.group(2) else False  # Checks if 'X' (times) is present
+        condition : str = match.group(3) if match.group(3) else None  # Extracts the condition or sets "No condition"
+        condition_amount :int = int(match.group(4)) if match.group(4) else 0
+        # Print the extracted variables
+        print(f"Value: {value}")
+        print(f"Multiplier: {multiplier}")
+        print(f"Condition: {condition_amount}\n")
+        if condition:
+            if purchase_amount > condition_amount:
+                if multiplier:
+                    return purchase_amount * PPR_calculator_with_stmt(points_stmt) * value #reward is calculated by amount* PPR * multiplier value, eg 2000 * 0.1 * 2
+                else:
+                    return value * PPR_calculator_with_stmt(points_stmt) #constant points earned, which is then converted to equivalent Rs.
+
+    else:
+        print(f"points regex failed")
+
+def regex_extract_reward_value(reward_statement : str, purchase_amount : int, points_stmt : str = '') -> int:
     if reward_type(reward_statement) == "percent off":
         return regex_extract_reward_value_PERCENT_OFF(reward_statement, purchase_amount)
 
     elif reward_type(reward_statement) == "points":
-        pass
+        return regex_extract_reward_value_POINTS(reward_statement, purchase_amount, points_stmt)
+    
     elif reward_type(reward_statement) == "cashback":
         pass
     elif reward_type(reward_statement) == "coupons":
@@ -104,6 +144,7 @@ def regex_extract_reward_value(reward_statement : str, purchase_amount : int) ->
     else:
         return False
 
+print(regex_extract_reward_value("10% off on orders above Rs.5000",2000))
 
 def reward_value(reward_statement : str) -> int:
     '''
@@ -117,10 +158,3 @@ def reward_value(reward_statement : str) -> int:
     '''
     #pass regex pertaining to reward_type
     pass
-
-
-
-
-
-
-#create regex func for extracting rewards json
