@@ -37,9 +37,7 @@ class Cards():
                 return self.other[other]   
         return False
     
-    def best_reward(self, brand_or_category : str) -> str :
-        pass #need regex function to compare values
-
+    
 
 list_of_cards = []
 def construct_cards() -> None:
@@ -63,8 +61,14 @@ def construct_cards() -> None:
             ))
 
 
+def best_reward_amount_per_card(card_object, brand_or_category : str) -> int :
+        #iterate through all the individual reward statements, pass into the reward_value function then return the highest
+        highest_reward = 0
+        for i in card_object.select_retailers:
+            print(type(i),i)
+best_reward_amount_per_card(list_of_cards[0], "puma")
 construct_cards()
 print(list_of_cards[0].card_name)
-print(list_of_cards[1].other_rewards("joining bonus"))
+print(list_of_cards[1].select_retailers_rewards("apple"))
 
         
