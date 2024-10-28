@@ -62,6 +62,7 @@ def fuzzy_search_test():
     print(process.extract("One 97 Communications", collection, scorer=fuzz.partial_token_sort_ratio, limit=8)) 
     print("Partial Token Set Ratio:", end = '')
     print(process.extract("One 97 Communications", collection, scorer=fuzz.partial_token_set_ratio, limit=8))
+#fuzzy_search_test()
 
 def custom_test_case_fuzzy(abbriviated_name,actual_name):
     abbriviated_name,actual_name = abbriviated_name.lower(),actual_name.lower()
@@ -72,16 +73,27 @@ def custom_test_case_fuzzy(abbriviated_name,actual_name):
     print(f"Simple partial token sort ratio similarity score: {fuzz.partial_token_sort_ratio(abbriviated_name, actual_name)}")
     print(f"Simple partial token set ratio similarity score: {fuzz.partial_token_set_ratio(abbriviated_name, actual_name)}")
 
-def custom_fuzzy():
+def custom_avg_fuzzy(abbriviated_name,actual_name):
     collection = helper.read_from_retailers_list_txt()
 
-    print("\nAMZN --> Amazon, few letters missing\n\n")
-    l_partial_ratio = dict(process.extract("amzn", collection, scorer=fuzz.partial_ratio))
-    l_ratio = dict(process.extract("amzn", collection, scorer=fuzz.ratio)) 
+    abbriviated_name,actual_name = abbriviated_name.lower(),actual_name.lower()
+    print(f"\n{abbriviated_name} --> {actual_name}\n\n")
+    l_partial_ratio = dict(process.extract(abbriviated_name, collection, scorer=fuzz.partial_ratio, limit= 100))
+    l_ratio = dict(process.extract(abbriviated_name, collection, scorer=fuzz.ratio, limit= 100)) 
     l_averaged = []
     for i in collection:
-        print(l_partial_ratio,i)
-        print(l_partial_ratio[i])
-        l_averaged.append((i, ((l_partial_ratio[i]+l_ratio[i])/2)   ))
-    print(l_averaged)
+        l_averaged.append(( ((l_partial_ratio[i]+l_ratio[i])/2)  ,i ))
+    l_averaged = sorted(l_averaged, reverse=True)
+    l_return = [(j,i) for i,j in l_averaged]
+    return l_return
+
+def benchmarking_custom_avg_fuzzy():
+    print(custom_avg_fuzzy('amzn','amazon'))
+    print(custom_avg_fuzzy('zeptonow.inc','zepto'))
+    print(custom_avg_fuzzy('amazonaws','amazon web services'))
+    print(custom_avg_fuzzy('one 97 communications','paytm'))
+    print(custom_avg_fuzzy('apple ME','apple'))
+    print(custom_avg_fuzzy('next billion tech','groww'))
+
+print(benchmarking_custom_avg_fuzzy())
 #custom_fuzzy() #TODO: Finish this
