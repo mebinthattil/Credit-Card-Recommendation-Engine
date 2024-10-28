@@ -78,14 +78,16 @@ def custom_avg_fuzzy(abbriviated_name,actual_name):
 
     abbriviated_name,actual_name = abbriviated_name.lower(),actual_name.lower()
     print(f"\n{abbriviated_name} --> {actual_name}\n\n")
-    l_partial_ratio = dict(process.extract(abbriviated_name, collection, scorer=fuzz.partial_ratio, limit= 100))
-    l_ratio = dict(process.extract(abbriviated_name, collection, scorer=fuzz.ratio, limit= 100)) 
+    l_partial_ratio = dict(process.extract(abbriviated_name, collection, scorer=fuzz.partial_ratio, limit= 200))
+    l_ratio = dict(process.extract(abbriviated_name, collection, scorer=fuzz.ratio, limit= 200)) 
     l_averaged = []
     for i in collection:
         l_averaged.append(( ((l_partial_ratio[i]+l_ratio[i])/2)  ,i ))
     l_averaged = sorted(l_averaged, reverse=True)
     l_return = [(j,i) for i,j in l_averaged]
     return l_return
+
+print(custom_avg_fuzzy('HPE','Hewlett-Packard Enterprise'))
 
 def benchmarking_custom_avg_fuzzy():
     print(custom_avg_fuzzy('amzn','amazon'))
@@ -95,5 +97,3 @@ def benchmarking_custom_avg_fuzzy():
     print(custom_avg_fuzzy('apple ME','apple'))
     print(custom_avg_fuzzy('next billion tech','groww'))
 
-print(benchmarking_custom_avg_fuzzy())
-#custom_fuzzy() #TODO: Finish this
