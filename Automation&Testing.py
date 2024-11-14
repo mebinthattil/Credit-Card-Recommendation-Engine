@@ -87,13 +87,15 @@ def custom_avg_fuzzy(abbriviated_name,actual_name):
     l_return = [(j,i) for i,j in l_averaged]
     return l_return
 
-print(custom_avg_fuzzy('HPE','Hewlett-Packard Enterprise'))
 
 def benchmarking_custom_avg_fuzzy():
     print(custom_avg_fuzzy('amzn','amazon'))
     print(custom_avg_fuzzy('zeptonow.inc','zepto'))
-    print(custom_avg_fuzzy('amazonaws','amazon web services'))
+    print(custom_avg_fuzzy('amazon web services','amazonaws'))
     print(custom_avg_fuzzy('one 97 communications','paytm'))
     print(custom_avg_fuzzy('apple ME','apple'))
     print(custom_avg_fuzzy('next billion tech','groww'))
+    print(custom_avg_fuzzy('HPE','Hewlett-Packard Enterprise'))
+    print(custom_avg_fuzzy("lululemon_HDFC-PayuBliz", "lululemon"))
 
+benchmarking_custom_avg_fuzzy()

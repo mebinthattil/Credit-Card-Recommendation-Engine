@@ -76,7 +76,7 @@ def reward_type(reward_statement : str) -> str:
     else:
         return False
 
-
+#TODO: finish this function ASAP
 def reward_value_with_reward_stmt(reward_statement : str, purchase_amount : int, points_stmt : str = "1 points for every Rs.1 spent") -> int:
     if reward_type(reward_statement) == "percent off":
         return regex.regex_extract_reward_value_PERCENT_OFF(reward_statement, purchase_amount)
@@ -92,7 +92,7 @@ def reward_value_with_reward_stmt(reward_statement : str, purchase_amount : int,
     else:
         return False
 
-
+#TODO: can be done later
 def correct_vendor_txn_name(vendor_txn_name : str) -> str: 
     #sometimes vendor txn name can be amzn can be amazon, zeptonow can be zepto, etc
     # we need to bring this to the original brand name in order to compare from data in the json rewards file
@@ -113,4 +113,5 @@ def reward_value_for_vendor(reward_statement : str, purchase_amount : int) -> in
     problem 1: regex identification
     '''
     #pass regex pertaining to reward_type
-    pass
+  
+

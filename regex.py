@@ -73,3 +73,44 @@ def regex_extract_reward_value_POINTS(reward_statement : str, purchase_amount : 
 
     else:
         print(f"points regex failed")
+
+def regex_extract_reward_value_CASHBACK(reward_statement : str, purchase_amount : int) -> int: #TODO (imp) : regex for 'rs' statements, eg: rs150 cashback on orders above rs2500 and rs150 off, fix that ASAP
+    #example function call: regex_extract_reward_value_CASHBACK("5% cashback on orders above Rs. 2500",6000)
+    #example function call alt: regex_extract_reward_value_CASHBACK("Rs.150 cashback on orders above Rs. 2500",6000)
+    import re
+
+    # Define the regex pattern
+    pattern = r"(\d+)\s*(%|Rs\.)\s*cashback\s*(on\sorders\sabove\sRs\.\s*(\d+))?"
+
+
+    # Loop through test strings and search for matches
+
+    match = re.search(pattern, reward_statement)
+
+    # If a match is found, extract and store the components
+    if match:
+        cashback_value = match.group(1)  # Extracts the cashback value
+        unit = match.group(2)            # Extracts the unit (% or Rs.)
+        condition = match.group(3) if match.group(3) else False  # Extracts the condition or "No condition"
+        condition_amount = match.group(4) if match.group(4) else False  # Extracts the amount in the condition if present
+
+        if condition:
+            if purchase_amount > int(condition_amount):
+                if unit == "Rs":
+                    return cashback_value
+                elif unit == "%": 
+                    return purchase_amount * (int(cashback_value)/100)
+            elif cashback_value:
+                return cashback_value
+            else:
+                print("regex cashback failed")
+        else:
+            if unit == "Rs":
+                return cashback_value
+            elif unit == "%": 
+                return purchase_amount * (int(cashback_value)/100)
+    else:
+        print(f"No match found for: {reward_statement}")
+    
+def regex_extract_reward_value_COUPOUNS(reward_statement : str, purchase_amount : int) -> int:
+    pass #TODO: write this function.
