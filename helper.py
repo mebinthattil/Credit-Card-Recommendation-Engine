@@ -1,6 +1,6 @@
-def json_to_nested_dict(json_file: str) -> dict:
+import regex,json,re
 
-    #reading from json
+def json_to_nested_dict(json_file: str) -> dict:
     import json
     with open(json_file) as f:
         cards = json.load(f)
@@ -17,6 +17,25 @@ def json_to_nested_dict(json_file: str) -> dict:
     
     return cards
 
+def read_from_retailers_list_txt() -> list:
+    fr = open("retailers_list.txt", "r")
+    lines = fr.read().split(",")[:-1]
+    fr.close()
+    return lines
+
+def append_to_retailers_list_txt(new_retailer : str = False) -> None:
+    import helper
+    reward_dict = helper.json_to_nested_dict("rewards.json")
+    fw = open("retailers_list.txt", "a")
+    for i in reward_dict:
+        for j in reward_dict[i]["select_retailers"]:
+            if j not in read_from_retailers_list_txt():
+                fw.write(j+",")
+    if new_retailer and new_retailer not in read_from_retailers_list_txt():
+        fw.write(new_retailer+",")
+    fw.close()
+
+append_to_retailers_list_txt()
 
 #card class constructor function. Input a card as dictionary, same structure as in json, converts to list with all the values.
 def card_class_constructor(uid : int) -> list[str, str, str, str, str, str, int, str, int, bool, dict, dict, dict]:
@@ -27,6 +46,8 @@ def card_class_constructor(uid : int) -> list[str, str, str, str, str, str, int,
     for card in all_cards:
         if all_cards[card]["uid"] == uid:
             break
+    else:
+        return None
     list_with_constructor_values += list(all_cards[card].values()) 
 
     #to add card rewards
@@ -34,12 +55,15 @@ def card_class_constructor(uid : int) -> list[str, str, str, str, str, str, int,
     for card in all_rewards:
         if all_rewards[card]["uid"] == uid:
             break
+    else:  
+        return None
     all_rewards[card].pop("uid")
+
     for type_of_reward in all_rewards[card]:
         list_with_constructor_values.append(all_rewards[card][type_of_reward])
     
     return list_with_constructor_values
-
+    
 def reward_type(reward_statement : str) -> str:
     if "off" in reward_statement.lower():
         return "percent off"
@@ -55,12 +79,34 @@ def reward_type(reward_statement : str) -> str:
 
     else:
         return False
+
+#TODO: finish this function ASAP
+def reward_value_with_reward_stmt(reward_statement : str, purchase_amount : int, points_stmt : str = "1 points for every Rs.1 spent") -> int:
+    if reward_type(reward_statement) == "percent off":
+        return regex.regex_extract_reward_value_PERCENT_OFF(reward_statement, purchase_amount)
+
+    elif reward_type(reward_statement) == "points":
+        return regex.regex_extract_reward_value_POINTS(reward_statement, purchase_amount, points_stmt)
     
-def regex_extract_reward_value(reward_statement : str, reward_type : str) -> int:
+    elif reward_type(reward_statement) == "cashback":
+        return 0 #function under development
+        #cashback can have % or abs
+    elif reward_type(reward_statement) == "coupons":
+        return 0 #function under development
+    else:
+        return False
+
+#TODO: can be done later
+def correct_vendor_txn_name(vendor_txn_name : str) -> str: 
+    #sometimes vendor txn name can be amzn can be amazon, zeptonow can be zepto, etc
+    # we need to bring this to the original brand name in order to compare from data in the json rewards file
+    #approach1: ollama
+    #approach2: fuzzy search
     pass
 
-
-def reward_value(reward_statement : str) -> int:
+def reward_value_for_vendor(reward_statement : str, purchase_amount : int) -> int:
+    #here the challenge is that smth like apple can be an individual vendor or a category(electronics)
+    #this is applicable for brands that are eligible under both conditions
     '''
     different types:
     <value> <% or Rs.> *off* [on condition] --> percent off
@@ -71,11 +117,5 @@ def reward_value(reward_statement : str) -> int:
     problem 1: regex identification
     '''
     #pass regex pertaining to reward_type
-    pass
+  
 
-
-
-
-
-
-#create regex func for extracting rewards json

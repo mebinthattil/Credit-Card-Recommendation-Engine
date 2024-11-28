@@ -8,7 +8,8 @@
             {
                 "lifestyle" : "10% off on orders above Rs.5000",
                 "nike" : "2X points on all orders",
-                "adidas" : "5% cashback on orders above Rs.2500"
+                "adidas" : "5% cashback on orders above Rs.2500",
+                "puma" : "20% off on orders above Rs.5000"
             },
 
         "categories": 
@@ -19,7 +20,8 @@
 
         "other":
             {
-                "joining bonus": "Rs.5000 worth Puma coupouns"
+                "joining bonus": "Rs.5000 worth Puma coupouns",
+                "PPR" : "5 X points on purchases above Rs. 2000"
             }      
     },
 
@@ -31,7 +33,7 @@
 
         "select_retailers" : 
             {
-                "puma" : "15% off on orders above Rs.5000",
+                "puma" : "15% off on orders above Rs.2000",
                 "apple" : "5X points on all orders",
                 "nivea" : "15% cashback on orders above Rs.2500"
             },
@@ -42,7 +44,8 @@
             },
         "other":
             {
-                "joining bonus": "Rs.3000 worth Lifestyle coupouns"
+                "joining bonus": "Rs.3000 worth Lifestyle coupouns",
+                "PPR" : "100 points for every Rs.1000 spent"
             }      
     }
 
