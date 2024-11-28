@@ -97,5 +97,12 @@ def benchmarking_custom_avg_fuzzy():
     print(custom_avg_fuzzy('next billion tech','groww'))
     print(custom_avg_fuzzy('HPE','Hewlett-Packard Enterprise'))
     print(custom_avg_fuzzy("lululemon_HDFC-PayuBliz", "lululemon"))
+    print(custom_avg_fuzzy("GE", "General Electric"))
+    print(custom_avg_fuzzy("General Elec", "General Electric Corporation"))
+    print(custom_avg_fuzzy("GEN ELECTRIC", "General Electric Corporation"))
+    print(custom_avg_fuzzy("G.E", "General Electric Corporation"))
+    print(custom_avg_fuzzy("GE Corp", "General Electric Corporation"))
+    print(custom_avg_fuzzy("General Electr", "General Electric Corporation"))
+    print(custom_avg_fuzzy("GE Corpration", "General Electric Corporation"))
 
 benchmarking_custom_avg_fuzzy()

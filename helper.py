@@ -36,6 +36,7 @@ def append_to_retailers_list_txt(new_retailer : str = False) -> None:
     fw.close()
 
 append_to_retailers_list_txt()
+
 #card class constructor function. Input a card as dictionary, same structure as in json, converts to list with all the values.
 def card_class_constructor(uid : int) -> list[str, str, str, str, str, str, int, str, int, bool, dict, dict, dict]:
     list_with_constructor_values = []
@@ -45,6 +46,8 @@ def card_class_constructor(uid : int) -> list[str, str, str, str, str, str, int,
     for card in all_cards:
         if all_cards[card]["uid"] == uid:
             break
+    else:
+        return None
     list_with_constructor_values += list(all_cards[card].values()) 
 
     #to add card rewards
@@ -52,13 +55,14 @@ def card_class_constructor(uid : int) -> list[str, str, str, str, str, str, int,
     for card in all_rewards:
         if all_rewards[card]["uid"] == uid:
             break
+    else:  
+        return None
     all_rewards[card].pop("uid")
+
     for type_of_reward in all_rewards[card]:
         list_with_constructor_values.append(all_rewards[card][type_of_reward])
     
     return list_with_constructor_values
-
-
     
 def reward_type(reward_statement : str) -> str:
     if "off" in reward_statement.lower():
@@ -85,10 +89,10 @@ def reward_value_with_reward_stmt(reward_statement : str, purchase_amount : int,
         return regex.regex_extract_reward_value_POINTS(reward_statement, purchase_amount, points_stmt)
     
     elif reward_type(reward_statement) == "cashback":
-        pass
+        return 0 #function under development
         #cashback can have % or abs
     elif reward_type(reward_statement) == "coupons":
-        pass
+        return 0 #function under development
     else:
         return False
 

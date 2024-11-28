@@ -1,8 +1,7 @@
 import helper
+import re
 
 def PPR_calculator_with_stmt(reward_statement:str) -> int: 
-    import re
-
     pattern = r"(\d+)\s*points\s*(for\s*every|per)\s*Rs\.*\s*(\d+)"
 
     # Search for a match
@@ -15,8 +14,7 @@ def PPR_calculator_with_stmt(reward_statement:str) -> int:
         return 0
 
 def regex_extract_reward_value_PERCENT_OFF(reward_statement : str, purchase_amount : int) -> int:
-    #TODO: currently only condition where value is extractable and logic is understood is 'orders above Rs.X'. Expand to more generic cases like 'first 3 orders'
-    import re
+    #TODO (low priority): currently only condition where value is extractable and logic is understood is 'orders above Rs.X'. Expand to more generic cases like 'first 3 orders'
 
     # Any numeric value followed by % or Rs followed by mandatory "off" and optional condition for the discount
     pattern = r"(\d+)\s*(%|Rs)\s*off\s*(on\sorders\sabove\sRs\.\s*(\d+))?"
@@ -51,7 +49,6 @@ def regex_extract_reward_value_PERCENT_OFF(reward_statement : str, purchase_amou
     
 def regex_extract_reward_value_POINTS(reward_statement : str, purchase_amount : int, points_stmt : str) -> int:
     #example function call: regex_extract_reward_value_POINTS("5 X points on purchases above Rs. 2000",6000, "100 points for every Rs.1000 spent")
-    import re
     pattern = r"(\d+)\s*(X)?\s*points\s*(on\s.*Rs\.\s*(\d+))?"
 
     match = re.search(pattern, reward_statement)
@@ -74,10 +71,10 @@ def regex_extract_reward_value_POINTS(reward_statement : str, purchase_amount : 
     else:
         print(f"points regex failed")
 
-def regex_extract_reward_value_CASHBACK(reward_statement : str, purchase_amount : int) -> int: #TODO (imp) : regex for 'rs' statements, eg: rs150 cashback on orders above rs2500 and rs150 off, fix that ASAP
+def regex_extract_reward_value_CASHBACK(reward_statement : str, purchase_amount : int) -> int: 
+    #TODO (imp) : regex for 'rs' statements, eg: rs150 cashback on orders above rs2500 and rs150 off, fix that ASAP
     #example function call: regex_extract_reward_value_CASHBACK("5% cashback on orders above Rs. 2500",6000)
     #example function call alt: regex_extract_reward_value_CASHBACK("Rs.150 cashback on orders above Rs. 2500",6000)
-    import re
 
     # Define the regex pattern
     pattern = r"(\d+)\s*(%|Rs\.)\s*cashback\s*(on\sorders\sabove\sRs\.\s*(\d+))?"
@@ -113,4 +110,5 @@ def regex_extract_reward_value_CASHBACK(reward_statement : str, purchase_amount 
         print(f"No match found for: {reward_statement}")
     
 def regex_extract_reward_value_COUPOUNS(reward_statement : str, purchase_amount : int) -> int:
-    pass #TODO: write this function.
+    pass #TODO: write this function.    
+    #for smth like "Rs.3000 worth Lifestyle coupouns"

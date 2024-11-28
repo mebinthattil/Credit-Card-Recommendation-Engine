@@ -1,3 +1,15 @@
+'''
+TODO:
+1. Vendor can be part of a category as well --> requires fundamental change in thought process
+2. REGEX pending for coupoun and cashback
+3. Code cleanup for better readability and maintainability
+
+
+'''
+
+
+
+
 import helper
 
 class Cards():
@@ -41,7 +53,8 @@ class Cards():
 list_of_cards = []
 def construct_cards() -> None:
     for card in helper.json_to_nested_dict("cards.json"):
-        helper_list = helper.card_class_constructor(card)
+        #TODO: below line too complex, write cleaner code
+        helper_list = helper.card_class_constructor(helper.json_to_nested_dict("cards.json")[card]["uid"])
         list_of_cards.append(Cards(
             uid=helper_list[0],
             card_name=card,
@@ -59,18 +72,22 @@ def construct_cards() -> None:
             ))
 
 construct_cards()
-def best_reward_amount_for_card(card_object, brand_or_category : str, purchase_amount : int) -> int :
-        #iterate through all the individual reward statements, pass into the reward_value function then return the highest
+
+def best_reward_amount_for_card(list_of_cards : object , brand_or_category : str, purchase_amount : int) -> int :
         highest_reward = 0
-        for vendor,reward_stmt in list(card_object.select_retailers.items()): #cycling through select retailers
-            if vendor == brand_or_category:
-                highest_reward = max(highest_reward, helper.reward_value_with_reward_stmt(reward_statement=reward_stmt, purchase_amount=purchase_amount))
-        for vendor,reward_stmt in list(card_object.categories.items()): #cycling through categories
-            if vendor == brand_or_category:
-                highest_reward = max(highest_reward, helper.reward_value_with_reward_stmt(reward_statement=reward_stmt, purchase_amount=purchase_amount))
+        #iterate through all cards in wallet
+        for card_object in list_of_cards:
+            #iterate through all the individual reward statements, pass into the reward_value function then return the highest
+            for vendor,reward_stmt in list(card_object.select_retailers.items()): #cycling through select retailers
+                if vendor == brand_or_category:
+                    highest_reward = max(highest_reward, helper.reward_value_with_reward_stmt(reward_statement=reward_stmt, purchase_amount=purchase_amount))
+            
+            for vendor,reward_stmt in list(card_object.categories.items()): #cycling through categories
+                if vendor == brand_or_category:
+                    highest_reward = max(highest_reward, helper.reward_value_with_reward_stmt(reward_statement=reward_stmt, purchase_amount=purchase_amount))
         return highest_reward
 
-print(best_reward_amount_for_card(list_of_cards[0], "puma",7000))
+print(best_reward_amount_for_card(list_of_cards, "puma",7000))
 
 
         
