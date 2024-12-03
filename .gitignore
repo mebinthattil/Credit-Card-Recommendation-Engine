@@ -1,4 +1,6 @@
 ./__pycache__
-./Flowchart_image.png
-./test.py
-./internal_automation_scripts.py
+test.py
+internal_automation_scripts.py
+Visa_API_test.py
+ignore_me/*
+llm_categorization.py
