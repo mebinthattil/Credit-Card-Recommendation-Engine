@@ -1,4 +1,7 @@
-./__pycache__
-./Flowchart_image.png
-./test.py
-./internal_automation_scripts.py
+__pycache__/
+test.py
+internal_automation_scripts.py
+Visa_API_test.py
+ignore_me/
+llm_categorization.py
+.DS_Store

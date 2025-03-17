@@ -111,4 +111,4 @@ def regex_extract_reward_value_CASHBACK(reward_statement : str, purchase_amount 
     
 def regex_extract_reward_value_COUPOUNS(reward_statement : str, purchase_amount : int) -> int:
     pass #TODO: write this function.    
-    #for smth like "Rs.3000 worth Lifestyle coupouns"
+    #for smth like "Rs.3000 worth Lifestyle coupouns"   
